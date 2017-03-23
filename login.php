@@ -7,12 +7,13 @@ $db_name = "clinica_upm";
 $DNI = $_POST['usr'];
 $password = $_POST['passwd']
 
-$conn = new mysql_connect($servername, $db_username, $db_password) or die('No se pudo conectar a la base de datos: ' . mysql_error());;
+$conn = new mysqli($servername, $db_username, $db_password, $dbname);
 
-mysql_select_db($dbname) or die('No se pudo conectar a la base de datos');
-
+if ($conn->connect_error) {
+    die("No se pudo conectar a la base de datos: " . $conn->connect_error);
+}
 $query = "SELECT * FROM usuario WHERE DNI = '$DNI' AND password = '$password'";
-$result = mysql_query($query) or die("Unable to verify user because " . mysql_error());
+$result = conn->query($query) or die("Unable to verify user because " . mysql_error());
 $row = mysql_fetch_assoc($result);
 
 if ($row['total'] == 1) {
