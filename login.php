@@ -13,12 +13,11 @@ mysql_select_db($dbname) or die('No se pudo conectar a la base de datos');
 
 $query = "SELECT * FROM usuario WHERE DNI = '$DNI' AND password = '$password'";
 $result = mysql_query($query) or die("Unable to verify user because " . mysql_error());
-$row = mysql_fetch_assoc($result);
 
-if ($row['total'] == 1) {
-	$query = "SELECT TIPO_USUARIO FROM usuario WHERE DNI = '$DNI'";
-	$result = mysql_query($query) or die("Unable to verify user because " . mysql_error());
-	$line = mysql_fetch_array($result, MYSQL_ASSOC);
+if ($result->num_rows > 0) {
+	$query1 = "SELECT TIPO_USUARIO FROM usuario WHERE DNI = '$DNI'";
+	$result1 = mysql_query($query1) or die("Unable to verify user because " . mysql_error());
+	$line = $result1->fetch_assoc();
 	if($line[TIPO_USUARIO] == "medico"){
 		$response["medico"] = 1;
 	}
